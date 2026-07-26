@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "686991264409",
+    "project_id": "dress-me-ai-ebe75",
+    "storage_bucket": "dress-me-ai-ebe75.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:686991264409:android:cd07ca4e447de405c88608",
+        "android_client_info": {
+          "package_name": "com.example.dress_me"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjE4fAZWIftd4WcMUyHT724yXgCphKRVQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

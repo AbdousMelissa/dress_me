@@ -12,6 +12,7 @@ class PhotoPage extends StatefulWidget {
 
 class _PhotoPageState extends State<PhotoPage> {
   File? _image;
+  final storageService = StorageService();
 
   Future<void> _takePhoto() async {
     final picker = ImagePicker();
@@ -25,7 +26,7 @@ class _PhotoPageState extends State<PhotoPage> {
       });
 
       // 🔥 Upload sécurisé dans Supabase (bucket privé)
-      await StorageService.uploadImage(file);
+      await storageService.uploadImage(file);
     }
   }
 

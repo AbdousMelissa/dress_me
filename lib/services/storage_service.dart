@@ -2,35 +2,45 @@ import 'dart:io';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class StorageService {
-  static Future<void> uploadImage(File image) async {
-    final supabase = Supabase.instance.client;
+  final supabase = Supabase.instance.client;
 
-    final fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
+  Future<String?> uploadImage(File image) async {
+    try {
+      final fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
 
-    await supabase.storage
-        .from('clothes')
-        .upload(fileName, image);
+      await supabase.storage.from('clothes').upload(fileName, image);
+
+      return supabase.storage.from('clothes').getPublicUrl(fileName);
+    } catch (e) {
+      print('Erreur upload: $e');
+      return null;
+    }
   }
 
-  // 🔐 Récupérer une URL signée pour afficher une image privée
-  static Future<String> getImageUrl(String fileName) async {
-    final supabase = Supabase.instance.client;
+  Future<bool> saveImageToDatabase(String imageUrl, String category) async {
+    try {
+      await supabase.from('clothes').insert({
+        'image_url': imageUrl,
+        'category': category,
+      });
 
-    final url = await supabase.storage
-        .from('clothes')
-        .createSignedUrl(fileName, 60 * 60); // expire dans 1h
-
-    return url;
+      return true;
+    } catch (e) {
+      print('Erreur insert DB: $e');
+      return false;
+    }
   }
 
-  // 📄 Lister les fichiers du bucket privé
-  static Future<List<String>> listImages() async {
-    final supabase = Supabase.instance.client;
+  Future<List<dynamic>> getClothes(String category) async {
+    try {
+      if (category == 'all') {
+        return await supabase.from('clothes').select();
+      }
 
-    final files = await supabase.storage
-        .from('clothes')
-        .list();
-
-    return files.map((f) => f.name).toList();
+      return await supabase.from('clothes').select().eq('category', category);
+    } catch (e) {
+      print('Erreur select: $e');
+      return [];
+    }
   }
 }

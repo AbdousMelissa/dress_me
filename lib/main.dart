@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'pages/photo_page.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'screens/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,16 +13,18 @@ void main() async {
     anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
   );
 
-  runApp(const DressMeApp());
+  runApp(const MyApp());
 }
 
-class DressMeApp extends StatelessWidget {
-  const DressMeApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const PhotoPage(),
+      debugShowCheckedModeBanner: false,
+      title: 'Dress Me',
+      home: const HomeScreen(),
     );
   }
 }
